@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>निमेष से अहोरात्र — Manusmriti Proof</title>
+<style>
+  :root{
+    --bg:#0e0b16;
+    --panel:#171226;
+    --panel2:#1f1832;
+    --line:#33285a;
+    --saffron:#ff9f1c;
+    --gold:#ffd166;
+    --text:#efe9ff;
+    --muted:#a99ec9;
+    --green:#4ade80;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:"Segoe UI",system-ui,-apple-system,"Noto Sans Devanagari",sans-serif;
+    background:radial-gradient(1200px 600px at 50% -10%,#241a3f 0%,var(--bg) 60%);
+    color:var(--text);
+    min-height:100vh;
+    padding:28px 16px 60px;
+  }
+  .wrap{max-width:860px;margin:0 auto}
+  header{text-align:center;margin-bottom:22px}
+  header h1{font-size:30px;letter-spacing:.5px;color:var(--gold)}
+  header h1 .om{color:var(--saffron)}
+  header .sub{margin-top:8px;color:var(--muted);font-size:14px;line-height:1.6}
+  header .sub b{color:var(--text)}
+  .card{
+    background:linear-gradient(180deg,var(--panel),var(--panel2));
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:22px;
+    box-shadow:0 18px 50px rgba(0,0,0,.45);
+  }
+  .main{display:grid;grid-template-columns:1.4fr 1fr;gap:16px}
+  .label{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+  .num{font-size:60px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.05;color:var(--gold);margin-top:6px;word-break:break-all}
+  .target{color:var(--muted);font-size:14px;margin-top:4px}
+  .clock{font-size:46px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.1;color:var(--text);margin-top:6px}
+  .timerbox .sub2{color:var(--muted);font-size:13px;margin-top:6px}
+  .bar{height:14px;background:#0b0817;border:1px solid var(--line);border-radius:999px;margin:18px 0 6px;overflow:hidden}
+  .bar > div{height:100%;width:0;background:linear-gradient(90deg,var(--saffron),var(--gold));transition:width .15s linear}
+  .pct{text-align:right;color:var(--muted);font-size:13px;font-variant-numeric:tabular-nums}
+  .units{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:18px}
+  .unit{background:#120d20;border:1px solid var(--line);border-radius:12px;padding:12px;text-align:center}
+  .unit .k{font-size:12px;color:var(--muted)}
+  .unit .v{font-size:24px;font-weight:800;color:var(--text);font-variant-numeric:tabular-nums;margin-top:4px}
+  .controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:20px}
+  button{
+    font:inherit;font-weight:700;cursor:pointer;border:none;border-radius:12px;padding:12px 22px;color:#1a1205;
+    background:linear-gradient(180deg,var(--gold),var(--saffron));transition:transform .06s ease,filter .15s;
+  }
+  button:active{transform:translateY(1px)}
+  button.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+  button:disabled{filter:grayscale(.6) brightness(.7);cursor:not-allowed}
+  .speed{margin-left:auto;display:flex;gap:6px;align-items:center;color:var(--muted);font-size:13px}
+  .speed button{padding:8px 12px;border-radius:9px;font-size:13px;background:#120d20;color:var(--muted);border:1px solid var(--line)}
+  .speed button.on{background:linear-gradient(180deg,var(--gold),var(--saffron));color:#1a1205;border-color:transparent}
+  .feed{margin-top:22px}
+  .feed h3{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+  #feed{max-height:280px;overflow-y:auto;border:1px solid var(--line);border-radius:14px;background:#0b0817;padding:10px}
+  .msg{display:flex;gap:10px;align-items:baseline;padding:7px 10px;border-radius:9px;font-size:14px;border-left:3px solid var(--line);margin-bottom:6px;background:#120d20}
+  .msg .t{color:var(--muted);font-variant-numeric:tabular-nums;font-size:12px;min-width:78px}
+  .msg.kashtha{border-left-color:#6d5bd0}
+  .msg.kala{border-left-color:var(--saffron)}
+  .msg.muhurta{border-left-color:#ff6b6b}
+  .msg.ahoratra{border-left-color:var(--green);background:#0f2318;color:#c9ffdc;font-weight:700}
+  .overlay{position:fixed;inset:0;background:rgba(5,3,12,.86);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:20px;z-index:50}
+  .overlay.hidden{display:none}
+  .proof{max-width:640px;width:100%;background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--gold);border-radius:20px;padding:30px;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+  .proof h2{color:var(--gold);font-size:24px;margin-bottom:14px}
+  .proof .big-eq{font-size:20px;line-height:1.9;color:var(--text);margin:16px 0}
+  .proof .big-eq b{color:var(--gold)}
+  .proof .tick{font-size:52px;color:var(--green);margin:6px 0 2px}
+  .proof p{color:var(--muted);font-size:14px;line-height:1.7;margin-top:14px}
+  footer{text-align:center;color:var(--muted);font-size:12px;margin-top:26px;line-height:1.7}
+  @media (max-width:640px){
+    .main{grid-template-columns:1fr}
+    .num{font-size:46px}.clock{font-size:38px}
+    .units{grid-template-columns:repeat(2,1fr)}
+    .speed{margin-left:0;width:100%}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1><span class="om">ॐ</span> निमेष से अहोरात्र</h1>
+    <p class="sub">
+      <b>मनुस्मृति १.६४</b> — १८ निमेष = १ काष्ठा · ३० काष्ठा = १ कला · ३० कला = १ मुहूर्त · ३० मुहूर्त = १ अहोरात्र<br>
+      लक्ष्य: <b>४,८६,००० निमेष</b> = १ अहोरात्र = <b>२४ घंटे</b> &nbsp;|&nbsp; १ निमेष = ८/४५ सेकंड ≈ ०.१७८ सेकंड
+    </p>
+  </header>
+
+  <div class="card">
+    <div class="main">
+      <div>
+        <div class="label">निमेष गणना (Nimesha count)</div>
+        <div id="nimesha" class="num">0</div>
+        <div class="target">/ 4,86,000</div>
+      </div>
+      <div class="timerbox">
+        <div class="label">समय (Timer)</div>
+        <div id="clock" class="clock">00:00:00</div>
+        <div class="sub2">प्रारंभ के बाद से बीता समय</div>
+      </div>
+    </div>
+
+    <div class="bar"><div id="fill"></div></div>
+    <div class="pct" id="pct">0.000%</div>
+
+    <div class="units">
+      <div class="unit"><div class="k">काष्ठा</div><div class="v" id="u-kashtha">0</div></div>
+      <div class="unit"><div class="k">कला</div><div class="v" id="u-kala">0</div></div>
+      <div class="unit"><div class="k">मुहूर्त</div><div class="v" id="u-muhurta">0</div></div>
+      <div class="unit"><div class="k">अहोरात्र</div><div class="v" id="u-ahoratra">0</div></div>
+    </div>
+
+    <div class="controls">
+      <button id="startBtn">▶ प्रारंभ (Start)</button>
+      <button id="pauseBtn" class="ghost" disabled>⏸ रोकें</button>
+      <button id="resetBtn" class="ghost">↺ रीसेट</button>
+      <div class="speed">
+        <span>गति:</span>
+        <button data-sp="1" class="on">1x (वास्तविक)</button>
+        <button data-sp="60">60x</button>
+        <button data-sp="600">600x</button>
+        <button data-sp="3600">3600x</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="feed">
+    <h3>घटना-सूची (Milestones)</h3>
+    <div id="feed"></div>
+  </div>
+
+  <footer>
+    1x गति पर यह गणक ठीक 24 घंटे में 4,86,000 निमेष पूर्ण करेगा। जल्दी परीक्षण के लिए ऊपर demo speed चुनें।<br>
+    स्रोत: मनुस्मृति अध्याय १, श्लोक ६४.
+  </footer>
+</div>
+
+<div id="overlay" class="overlay hidden">
+  <div class="proof">
+    <div class="tick">✓</div>
+    <h2>अहोरात्र सिद्ध हुआ</h2>
+    <div class="big-eq">
+      4,86,000 निमेष × 0.1778 सेकंड<br>
+      = <b>86,400 सेकंड</b><br>
+      = <b>1,440 मिनट</b> = <b>24 घंटे</b>
+    </div>
+    <p>
+      १८ निमेष = १ काष्ठा → ४८६००० ÷ १८ = २७,००० काष्ठा<br>
+      ३० काष्ठा = १ कला → २७००० ÷ ३० = ९०० कला<br>
+      ३० कला = १ मुहूर्त → ९०० ÷ ३० = ३० मुहूर्त<br>
+      ३० मुहूर्त = १ अहोरात्र → <b>३० मुहूर्त = १ दिन-रात = २४ घंटे</b> ✓
+    </p>
+    <div style="margin-top:20px">
+      <button id="againBtn">↺ फिर से चलाएँ</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  // ---- Manusmriti 1.64 constants ----
+  var NIMESHA_PER_KASHTHA = 18;
+  var KASHTHA_PER_KALA    = 30;
+  var KALA_PER_MUHURTA    = 30;
+  var MUHURTA_PER_AHORATRA= 30;
+
+  var KASHTHA = NIMESHA_PER_KASHTHA;                       // 18
+  var KALA    = KASHTHA * KASHTHA_PER_KALA;                // 540
+  var MUHURTA = KALA * KALA_PER_MUHURTA;                   // 16200
+  var AHORATRA= MUHURTA * MUHURTA_PER_AHORATRA;            // 486000
+
+  // 1 day = 86,400,000 ms ; so one nimesha = 86,400,000 / 486,000 = 1600/9 ms
+  var NIMESHA_MS = 86400000 / AHORATRA;                    // 177.777... ms
+  var NIMESHA_SEC = NIMESHA_MS / 1000;                     // 0.17777... = 8/45 s
+
+  // ---- state ----
+  var running = false;
+  var accMs = 0;          // simulated milliseconds accumulated
+  var basePerf = 0;       // performance.now() at (re)start
+  var speed = 1;
+  var lastCount = 0;
+  var lastKashtha = 0, lastKala = 0, lastMuhurta = 0, lastAhoratra = 0;
+  var rafId = null;
+  var finished = false;
+
+  // ---- elements ----
+  var elNimesha  = document.getElementById("nimesha");
+  var elClock    = document.getElementById("clock");
+  var elFill     = document.getElementById("fill");
+  var elPct      = document.getElementById("pct");
+  var elKashtha  = document.getElementById("u-kashtha");
+  var elKala     = document.getElementById("u-kala");
+  var elMuhurta  = document.getElementById("u-muhurta");
+  var elAhoratra = document.getElementById("u-ahoratra");
+  var feed       = document.getElementById("feed");
+  var overlay    = document.getElementById("overlay");
+  var startBtn   = document.getElementById("startBtn");
+  var pauseBtn   = document.getElementById("pauseBtn");
+  var resetBtn   = document.getElementById("resetBtn");
+  var againBtn   = document.getElementById("againBtn");
+
+  function fmt(n){ return n.toLocaleString("en-IN"); }
+
+  function simElapsedMs(){
+    if(running){ return accMs + (performance.now() - basePerf) * speed; }
+    return accMs;
+  }
+
+  function fmtClock(totalMs){
+    var s = Math.floor(totalMs/1000);
+    var h = Math.floor(s/3600);
+    var m = Math.floor((s%3600)/60);
+    var sec = s%60;
+    function p(x){ return (x<10?"0":"")+x; }
+    return p(h)+":"+p(m)+":"+p(sec);
+  }
+
+  function addMsg(cls, text){
+    var t = fmtClock(simElapsedMs());
+    var d = document.createElement("div");
+    d.className = "msg " + cls;
+    d.innerHTML = '<span class="t">'+t+'</span><span>'+text+'</span>';
+    feed.appendChild(d);
+    // cap feed size so a 24h run does not bloat the DOM
+    while(feed.childNodes.length > 80){ feed.removeChild(feed.firstChild); }
+    feed.scrollTop = feed.scrollHeight;
+  }
+
+  function processMilestones(count){
+    var k = Math.floor(count / KASHTHA);
+    if(k > lastKashtha){
+      if(k - lastKashtha === 1){ addMsg("kashtha", "१ काष्ठा पूर्ण (काष्ठा #" + fmt(k) + ")"); }
+      else { addMsg("kashtha", "+" + fmt(k-lastKashtha) + " काष्ठा पूर्ण (अब #" + fmt(k) + ")"); }
+      lastKashtha = k;
+    }
+    var kl = Math.floor(count / KALA);
+    if(kl > lastKala){
+      addMsg("kala", "१ कला पूर्ण — ३० काष्ठा (कला #" + fmt(kl) + ")");
+      lastKala = kl;
+    }
+    var mu = Math.floor(count / MUHURTA);
+    if(mu > lastMuhurta){
+      addMsg("muhurta", "१ मुहूर्त पूर्ण — ३० कला = ४८ मिनट (मुहूर्त #" + fmt(mu) + ")");
+      lastMuhurta = mu;
+    }
+    var ah = Math.floor(count / AHORATRA);
+    if(ah > lastAhoratra){
+      addMsg("ahoratra", "१ अहोरात्र पूर्ण — ४,८६,००० निमेष = २४ घंटे ✓");
+      lastAhoratra = ah;
+      onComplete();
+    }
+  }
+
+  function onComplete(){
+    finished = true;
+    running = false;
+    cancelAnimationFrame(rafId);
+    startBtn.disabled = true;
+    pauseBtn.disabled = true;
+    overlay.classList.remove("hidden");
+  }
+
+  function render(){
+    var ms = simElapsedMs();
+    var count = Math.floor(ms / NIMESHA_MS);
+    if(count > AHORATRA){ count = AHORATRA; }
+
+    if(count > lastCount){
+      processMilestones(count);
+      lastCount = count;
+    }
+
+    elNimesha.textContent = fmt(count);
+    elClock.textContent = fmtClock(ms);
+    elKashtha.textContent = fmt(Math.floor(count / KASHTHA));
+    elKala.textContent = fmt(Math.floor(count / KALA));
+    elMuhurta.textContent = fmt(Math.floor(count / MUHURTA));
+    elAhoratra.textContent = fmt(Math.floor(count / AHORATRA));
+
+    var pct = count / AHORATRA * 100;
+    elFill.style.width = (pct>100?100:pct) + "%";
+    elPct.textContent = pct.toFixed(3) + "%";
+  }
+
+  function loop(){
+    render();
+    if(running){ rafId = requestAnimationFrame(loop); }
+  }
+
+  function start(){
+    if(finished) return;
+    if(running) return;
+    running = true;
+    basePerf = performance.now();
+    startBtn.disabled = true;
+    pauseBtn.disabled = false;
+    if(lastCount === 0 && feed.childNodes.length === 0){
+      addMsg("kashtha", "गणना प्रारंभ — पहला निमेष गिना जा रहा है…");
+    }
+    loop();
+  }
+
+  function pause(){
+    if(!running) return;
+    accMs += (performance.now() - basePerf) * speed;
+    running = false;
+    cancelAnimationFrame(rafId);
+    startBtn.disabled = false;
+    pauseBtn.disabled = true;
+    render();
+  }
+
+  function reset(){
+    running = false;
+    finished = false;
+    cancelAnimationFrame(rafId);
+    accMs = 0; lastCount = 0;
+    lastKashtha = lastKala = lastMuhurta = lastAhoratra = 0;
+    feed.innerHTML = "";
+    overlay.classList.add("hidden");
+    startBtn.disabled = false;
+    pauseBtn.disabled = true;
+    render();
+  }
+
+  function setSpeed(s){
+    if(running){ accMs += (performance.now() - basePerf) * speed; basePerf = performance.now(); }
+    speed = s;
+  }
+
+  startBtn.addEventListener("click", start);
+  pauseBtn.addEventListener("click", pause);
+  resetBtn.addEventListener("click", reset);
+  againBtn.addEventListener("click", reset);
+
+  var speedBtns = document.querySelectorAll(".speed button");
+  Array.prototype.forEach.call(speedBtns, function(b){
+    b.addEventListener("click", function(){
+      Array.prototype.forEach.call(speedBtns, function(x){ x.classList.remove("on"); });
+      b.classList.add("on");
+      setSpeed(parseInt(b.getAttribute("data-sp"), 10));
+    });
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
